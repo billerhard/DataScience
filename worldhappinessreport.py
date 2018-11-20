@@ -1,6 +1,8 @@
 # Learning world happiness
 # CNA 330
 # Bill Erhard, wherhard@student.rtc.edu
+from typing import List, Any
+
 import requests
 from pathlib import Path
 import pandas
@@ -33,8 +35,9 @@ def main():
     if not world_happiness_file.exists():
         get_and_store_report(world_happiness_file)
 
-    with open(world_happiness_file, "r") as f:
-        print(f)
+    # Open and read the excel spreadsheet (specifically Figure 2.3, index *2*)
+    data_frame = pandas.read_excel(world_happiness_file, 2)
+    print(data_frame)
 
 
 if __name__ == '__main__':
