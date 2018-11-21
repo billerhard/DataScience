@@ -47,10 +47,11 @@ def main():
     # Print Figure 2.3
     # print_figure_two_dot_three(world_happiness_file)
 
-    # Make a boxplot
+    # Make a bar graph
     data_frame = pandas.read_excel(world_happiness_file, 1)
-    data_frame = data_frame.iloc[:, 0:2]
-    data_frame.boxplot()
+    data_frame = data_frame.iloc[:-1, 0:2]
+    data_frame.index = data_frame['Country']
+    data_frame.plot.bar()
     matplotlib.pyplot.show()
 
 
