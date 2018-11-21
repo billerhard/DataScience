@@ -30,10 +30,22 @@ def get_and_store_report(path):
 
 
 # Open and read the excel spreadsheet (specifically Figure 2.3, index *2*)
-def print_figure_two_dot_three(world_happiness_file):
+def print_figure(world_happiness_file, sheet):
 
-    data_frame = pandas.read_excel(world_happiness_file, 2)
+    data_frame = pandas.read_excel(world_happiness_file, sheet)
     print(data_frame)
+
+
+# Make a bar graph from Figure 2.2, just Country vs. Happiness
+def plot_bar_graph(world_happiness_file, sheet):
+    data_frame = pandas.read_excel(world_happiness_file, sheet)
+    # Sheet has a lot of bloat, trim it down to countries and scores.
+    data_frame = data_frame.iloc[:-1, 0:2]
+    # Set index for plot
+    data_frame.index = data_frame['Country']
+    # Ready to plot and show!
+    data_frame.plot.bar()
+    matplotlib.pyplot.show()
 
 
 def main():
@@ -45,14 +57,14 @@ def main():
         get_and_store_report(world_happiness_file)
 
     # Print Figure 2.3
-    # print_figure_two_dot_three(world_happiness_file)
+    print_figure(world_happiness_file, 2)
 
     # Make a bar graph
-    data_frame = pandas.read_excel(world_happiness_file, 1)
-    data_frame = data_frame.iloc[:-1, 0:2]
-    data_frame.index = data_frame['Country']
-    data_frame.plot.bar()
-    matplotlib.pyplot.show()
+    plot_bar_graph(world_happiness_file, 1)
+
+    # Create SQL Database
+
+
 
 
 if __name__ == '__main__':
