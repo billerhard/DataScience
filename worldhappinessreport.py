@@ -47,9 +47,11 @@ def main():
     # Print Figure 2.3
     # print_figure_two_dot_three(world_happiness_file)
 
-    # Make a boxplot TODO: fix this
+    # Make a boxplot
     data_frame = pandas.read_excel(world_happiness_file, 1)
-    print(data_frame.plot())
+    data_frame = data_frame.iloc[:, 0:2]
+    data_frame.boxplot()
+    matplotlib.pyplot.show()
 
 
 if __name__ == '__main__':
