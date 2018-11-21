@@ -6,7 +6,8 @@ from typing import List, Any
 import requests
 from pathlib import Path
 import pandas
-import xlrd
+import numpy
+import matplotlib.pyplot
 
 
 # Fetches 2018 world happiness report from aws s3 in xls binary format
@@ -28,16 +29,27 @@ def get_and_store_report(path):
         f.write(fetch_xls())
 
 
-def main():
+# Open and read the excel spreadsheet (specifically Figure 2.3, index *2*)
+def print_figure_two_dot_three(world_happiness_file):
 
-    # If we don't have the report, get it.
+    data_frame = pandas.read_excel(world_happiness_file, 2)
+    print(data_frame)
+
+
+def main():
+    # Path to file
     world_happiness_file = Path("./world_happiness.xls")
+
+    # If we don't have the report, get it into an xls.
     if not world_happiness_file.exists():
         get_and_store_report(world_happiness_file)
 
-    # Open and read the excel spreadsheet (specifically Figure 2.3, index *2*)
-    data_frame = pandas.read_excel(world_happiness_file, 2)
-    print(data_frame)
+    # Print Figure 2.3
+    # print_figure_two_dot_three(world_happiness_file)
+
+    # Make a boxplot TODO: fix this
+    data_frame = pandas.read_excel(world_happiness_file, 1)
+    print(data_frame.plot())
 
 
 if __name__ == '__main__':
