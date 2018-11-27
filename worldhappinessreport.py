@@ -66,7 +66,7 @@ def clear_table(cursor):
 
 def create_table(cursor, data_frame):
     columns = list(data_frame.columns)
-    sql = '''CREATE TABLE happiness(id INTEGER PRIMARY KEY'''
+    sql = '''CREATE TABLE IF NOT EXISTS happiness(id INTEGER PRIMARY KEY'''
     for column in columns:
         sql = sql + ''', "%s" TEXT''' % column
     sql = sql + ''');'''
@@ -74,20 +74,20 @@ def create_table(cursor, data_frame):
 
 
 def insert_data(cursor, data_frame):
-    i = 0
+    columns = list(data_frame.columns)
     for row in data_frame.values:
-        sql = '''INSERT INTO happiness VALUES(%s, ''' % i
+        sql = '''INSERT INTO happiness ("%s", "%s", "%s", "%s") VALUES(''' \
+              % (columns[0], columns[1], columns[2], columns[3])
         for value in row:
             sql += '''"%s", ''' % value
         sql = sql[:-2]
         sql += ''');'''
         cursor.execute(sql)
-        i += 1
 
 
 def populate_database(cursor, world_happiness_file):
     data_frame = pandas.read_excel(world_happiness_file, 2)
-    # clear_table(cursor) # in case you want to get rid of old data
+    # clear_table(cursor)  # in case you want to get rid of old data
     create_table(cursor, data_frame)
     insert_data(cursor, data_frame)
 
